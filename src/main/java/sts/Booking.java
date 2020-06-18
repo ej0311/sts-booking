@@ -35,12 +35,9 @@ public class Booking {
 
     @PostUpdate
     public void onPostUpdate(){
-    	System.out.println("2222222222222");
-    	
     	if (BookingStatus.BookingApproved.name().equals(this.getStatus())) {
     		BookingApproved bookingApproved = new BookingApproved();
             BeanUtils.copyProperties(this, bookingApproved);
-//            bookingApproved.setStatus(BookingStatus.BookingApproved.name());
             bookingApproved.publishAfterCommit();
     	}
 
