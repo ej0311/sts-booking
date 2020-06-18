@@ -24,7 +24,7 @@ public class Booking {
     public void onPostPersist(){
         BookingRequested bookingRequested = new BookingRequested();
         BeanUtils.copyProperties(this, bookingRequested);
-        bookingRequested.setStatus("BookingRequested");
+        bookingRequested.setStatus(BookingStatus.BookingRequested.name());
         bookingRequested.publishAfterCommit();
 
         Payment payment = new Payment();
@@ -35,11 +35,14 @@ public class Booking {
 
     @PostUpdate
     public void onPostUpdate(){
-        BookingApproved bookingApproved = new BookingApproved();
-        BeanUtils.copyProperties(this, bookingApproved);
-        bookingApproved.setStatus("BookingApproved");
-        bookingApproved.publishAfterCommit();
-
+    	System.out.println("2222222222222");
+    	
+    	if (BookingStatus.BookingApproved.name().equals(this.getStatus())) {
+    		BookingApproved bookingApproved = new BookingApproved();
+            BeanUtils.copyProperties(this, bookingApproved);
+//            bookingApproved.setStatus(BookingStatus.BookingApproved.name());
+            bookingApproved.publishAfterCommit();
+    	}
 
     }
 
@@ -47,7 +50,7 @@ public class Booking {
     public void onPreRemove(){
         BookingCanceled bookingCanceled = new BookingCanceled();
         BeanUtils.copyProperties(this, bookingCanceled);
-        bookingCanceled.setStatus("BookingCanceled");
+        bookingCanceled.setStatus(BookingStatus.BookingCanceled.name());
         bookingCanceled.publishAfterCommit();
 
 
